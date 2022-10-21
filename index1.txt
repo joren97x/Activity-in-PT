@@ -1,0 +1,133 @@
+<?php
+session_start();
+
+function createAccount() {
+
+        $_SESSION['name'] = $_POST['name'];
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['birthday'] = $_POST['birthday'];
+        $_SESSION['gender'] = $_POST['gender'];
+
+        $name = $_SESSION['name'];
+        $email = $_SESSION['email'];
+        $birthday = $_SESSION['birthday'];
+        $gender = $_SESSION['gender'];
+        $age = computeAge($birthday);
+        
+        echo "<tr>";
+        echo "<td> $name </td>";
+        echo "<td> $birthday </td>";
+        echo "<td> $gender </td>";
+        echo "<td> $age </td>";
+        echo "<td> $email </td>";
+        echo "<td><a href=\"view.php\"><i class=\"bi bi-eye text-light bg-dark p-1\"></i></a> <a href=\"update.php\"> <i class=\"bi bi-pencil-square text-light bg-primary p-1\"></i></a> <a href=\"delete.php\"><i class=\"bi bi-trash3 text-light bg-danger p-1\"></i></a></td>";
+        echo "</tr>";
+}
+
+function computeAge ($birthday) {
+    $date = new DateTime($birthday);
+    $now = new DateTime();
+    $interval = $now->diff($date);
+    return $interval->y;
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <title>View Accounts</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+
+            </div>
+            <div class="col-2 mb-5">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-plus-circle"> </i>Create
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="" method="POST">
+                                <div class="modal-body">
+
+                                    <div class="form-group p-2">
+                                        <label for="exampleInputEmail1">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name">
+
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="exampleInputPassword1">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email">
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label for="Birthday">Birthday</label><br>
+                                        <input type="date" id="birthday" name="birthday" class="form-inline pr-5 ml-2">
+                                        <input type="radio" name="gender" id="gender" style="margin-left: 140px;" value="male"> Male
+                                        <input type="radio" name="gender" id="gender" value="female"> Female
+
+                                    </div>
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success" id="sub" name="sub">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container shadow">
+        <div class="row p-5">
+            <table class="table table-bordered text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Birthday</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                
+                <?php
+
+                    if (isset($_POST['sub'])) {
+                        createAccount();
+                    }
+
+                ?>
+
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
